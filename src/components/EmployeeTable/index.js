@@ -65,7 +65,7 @@ class EmployeeTable extends Component {
             handleFilterChange={this.handleFilterChange}
             handleSortChange={this.handleSortChange}
           />
-          <Table>
+          <Table variant="dark">
             <thead>
               <tr>
                 <th>#</th>
