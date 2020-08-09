@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Table, Spinner } from "react-bootstrap";
 import TableRow from "../TableRow";
+import TableInputs from "../TableInputs";
 
 class EmployeeTable extends Component {
   state = {
@@ -43,7 +44,12 @@ class EmployeeTable extends Component {
 
     const sortString = event.target.value;
 
-    const sortedUsers = sortString === 'id' ? users.sort((user1, user2) => user1.id - user2.id) : users.sort((user1, user2) => (user1[sortString] > user2[sortString]) ? 1 : -1);
+    const sortedUsers =
+      sortString === "id"
+        ? users.sort((user1, user2) => user1.id - user2.id)
+        : users.sort((user1, user2) =>
+            user1[sortString] > user2[sortString] ? 1 : -1
+          );
 
     this.setState({ users: sortedUsers });
   };
@@ -55,20 +61,10 @@ class EmployeeTable extends Component {
       return (
         <div>
           <h1>Employee Directory</h1>
-          <label htmlFor="filter">Filter: </label>
-          <input
-            id="filter"
-            name="filter"
-            type="text"
-            onChange={this.handleFilterChange}
-          ></input>
-
-          <label htmlFor="sort">Sort: </label>
-          <select name="sort" id="sort" onChange={this.handleSortChange}>
-            <option value="id">ID</option>
-            <option value="name">Name</option>
-            <option value="email">Email</option>
-          </select>
+          <TableInputs
+            handleFilterChange={this.handleFilterChange}
+            handleSortChange={this.handleSortChange}
+          />
           <Table>
             <thead>
               <tr>
