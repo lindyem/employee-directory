@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Table, Spinner } from "react-bootstrap";
+import TableRow from "../TableRow";
 
 class EmployeeTable extends Component {
   state = {
@@ -13,7 +14,7 @@ class EmployeeTable extends Component {
       .get("https://jsonplaceholder.typicode.com/users")
       .then((response) => {
         console.log("response", response.data);
-        this.setState({ isLoaded: false, users: response.data });
+        this.setState({ isLoaded: true, users: response.data });
       })
       .catch((err) => console.error(err));
   }
@@ -35,12 +36,7 @@ class EmployeeTable extends Component {
             <tbody>
               {this.state.users.map((user) => {
                 return (
-                  <tr>
-                    <td>{user.id}</td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>{user.phone}</td>
-                  </tr>
+                  <TableRow id={user.id} name={user.name} email={user.email} phone={user.phone}/>
                 );
               })}
             </tbody>
