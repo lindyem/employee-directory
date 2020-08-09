@@ -24,10 +24,10 @@ class EmployeeTable extends Component {
   handleFilterChange = (event) => {
     const { allUsers } = this.state;
 
-    const filterString = event.target.value;
+    const filterString = event.target.value.toLowerCase();
 
     const filteredUsers = allUsers.filter((user) => {
-      return user.name.includes(filterString);
+      return user.name.toLowerCase().includes(filterString) || user.email.toLowerCase().includes(filterString);
     })
 
     this.setState({users: filteredUsers});
