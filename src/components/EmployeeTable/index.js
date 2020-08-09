@@ -1,24 +1,25 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Table } from 'react-bootstrap';
+import { Table, Spinner } from "react-bootstrap";
 
 class EmployeeTable extends Component {
   state = {
     isLoaded: false,
-    users: []
+    users: [],
   };
 
   componentDidMount() {
-    axios.get('https://jsonplaceholder.typicode.com/users')
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
       .then((response) => {
-        console.log('response', response.data);
-        this.setState({isLoaded:true, users: response.data})
+        console.log("response", response.data);
+        this.setState({ isLoaded: false, users: response.data });
       })
       .catch((err) => console.error(err));
   }
 
   render() {
-    if(this.state.isLoaded) {
+    if (this.state.isLoaded) {
       return (
         <div>
           <h1>Employee Directory</h1>
@@ -50,11 +51,12 @@ class EmployeeTable extends Component {
       return (
         <div>
           <h1>Employee Directory</h1>
-          <div>Loading...</div>
+          <div className="mt-5 text-center">
+            <Spinner animation="border" />
+          </div>
         </div>
-      )
+      );
     }
-   
   }
 }
 
