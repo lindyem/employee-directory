@@ -7,8 +7,6 @@ class EmployeeTable extends Component {
   state = {
     isLoaded: false,
     users: [],
-    filter: '',
-    sort: '',
     allUsers: [],
   };
 
@@ -16,7 +14,11 @@ class EmployeeTable extends Component {
     axios
       .get("https://jsonplaceholder.typicode.com/users")
       .then((response) => {
-        this.setState({ isLoaded: true, users: response.data, allUsers: response.data });
+        this.setState({
+          isLoaded: true,
+          users: response.data,
+          allUsers: response.data,
+        });
       })
       .catch((err) => console.error(err));
   }
@@ -27,31 +29,45 @@ class EmployeeTable extends Component {
     const filterString = event.target.value.toLowerCase();
 
     const filteredUsers = allUsers.filter((user) => {
-      return user.name.toLowerCase().includes(filterString) || user.email.toLowerCase().includes(filterString);
-    })
+      return (
+        user.name.toLowerCase().includes(filterString) ||
+        user.email.toLowerCase().includes(filterString)
+      );
+    });
 
-    this.setState({users: filteredUsers});
-  }
+    this.setState({ users: filteredUsers });
+  };
+
+  handleSortChange = (event) => {
+    const { users } = this.state;
+
+    const sortString = event.target.value;
+
+    const sortedUsers = sortString === 'id' ? users.sort((user1, user2) => user1.id - user2.id) : users.sort((user1, user2) => (user1[sortString] > user2[sortString]) ? 1 : -1);
+
+    this.setState({ users: sortedUsers });
+  };
 
   render() {
-    const {
-      isLoaded,
-      users
-    } = this.state;
+    const { isLoaded, users } = this.state;
 
     if (isLoaded) {
       return (
         <div>
           <h1>Employee Directory</h1>
           <label htmlFor="filter">Filter: </label>
-          <input id="filter" name="filter" type="text" onChange={this.handleFilterChange}></input>
+          <input
+            id="filter"
+            name="filter"
+            type="text"
+            onChange={this.handleFilterChange}
+          ></input>
 
           <label htmlFor="sort">Sort: </label>
-          <select name="sort" id="sort">
+          <select name="sort" id="sort" onChange={this.handleSortChange}>
             <option value="id">ID</option>
             <option value="name">Name</option>
             <option value="email">Email</option>
-            <option value="phone">Phone</option>
           </select>
           <Table>
             <thead>
